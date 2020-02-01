@@ -8,9 +8,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.gcaldas.conceptualmodel.domain.Category;
+import com.gcaldas.conceptualmodel.domain.City;
 import com.gcaldas.conceptualmodel.domain.Product;
+import com.gcaldas.conceptualmodel.domain.State;
 import com.gcaldas.conceptualmodel.repositories.CategoryRepository;
+import com.gcaldas.conceptualmodel.repositories.CityRepository;
 import com.gcaldas.conceptualmodel.repositories.ProductRepository;
+import com.gcaldas.conceptualmodel.repositories.StateRepository;
 
 @SpringBootApplication
 public class ConceptualmodelApplication implements CommandLineRunner {
@@ -21,6 +25,12 @@ public class ConceptualmodelApplication implements CommandLineRunner {
 	@Autowired
 	private ProductRepository productRepository;
 
+	@Autowired
+	private CityRepository cityRepository;
+	
+	@Autowired
+	private StateRepository stateRepository;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(ConceptualmodelApplication.class, args);
 	}
@@ -44,5 +54,19 @@ public class ConceptualmodelApplication implements CommandLineRunner {
 
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2));
 		productRepository.saveAll(Arrays.asList(p1, p2, p3));
+
+		State state1 = new State(null, "Minas Gerais");
+		State state2 = new State(null, "Sao Paulo");
+
+		City c1 = new City(null, "Uberlandia", state1);
+		City c2 = new City(null, "Sao Paulo", state2);
+		City c3 = new City(null, "Campinas", state2);
+
+		state1.getCities().addAll(Arrays.asList(c1));
+		state2.getCities().addAll(Arrays.asList(c2, c3));
+		
+		stateRepository.saveAll(Arrays.asList(state1, state2));
+		cityRepository.saveAll(Arrays.asList(c1, c2, c3));
+
 	}
 }
