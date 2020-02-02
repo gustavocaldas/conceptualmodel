@@ -7,12 +7,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.gcaldas.conceptualmodel.domain.Address;
 import com.gcaldas.conceptualmodel.domain.Category;
 import com.gcaldas.conceptualmodel.domain.City;
+import com.gcaldas.conceptualmodel.domain.Client;
 import com.gcaldas.conceptualmodel.domain.Product;
 import com.gcaldas.conceptualmodel.domain.State;
+import com.gcaldas.conceptualmodel.domain.enums.ClientType;
+import com.gcaldas.conceptualmodel.repositories.AddressRepository;
 import com.gcaldas.conceptualmodel.repositories.CategoryRepository;
 import com.gcaldas.conceptualmodel.repositories.CityRepository;
+import com.gcaldas.conceptualmodel.repositories.ClientRepository;
 import com.gcaldas.conceptualmodel.repositories.ProductRepository;
 import com.gcaldas.conceptualmodel.repositories.StateRepository;
 
@@ -30,6 +35,12 @@ public class ConceptualmodelApplication implements CommandLineRunner {
 	
 	@Autowired
 	private StateRepository stateRepository;
+	
+	@Autowired
+	private ClientRepository clientRepository;
+	
+	@Autowired
+	private AddressRepository addressRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ConceptualmodelApplication.class, args);
@@ -68,5 +79,17 @@ public class ConceptualmodelApplication implements CommandLineRunner {
 		stateRepository.saveAll(Arrays.asList(state1, state2));
 		cityRepository.saveAll(Arrays.asList(c1, c2, c3));
 
+		Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.NATURALPERSON);
+		
+		cli1.getPhones().addAll(Arrays.asList("27363323", "93838393"));
+		
+		Address ad1 = new Address(null, "Rua Flores", "300", "Apto 203", "Jardim", "38220834", cli1, c1);
+
+		Address ad2 = new Address(null, "Avenida Matos", "150", "Sala 800", "Centro", "38777012", cli1, c2);
+		
+		cli1.getAddress().addAll(Arrays.asList(ad1, ad2));
+		
+		clientRepository.saveAll(Arrays.asList(cli1));
+		addressRepository.saveAll(Arrays.asList(ad1, ad2));
 	}
 }
