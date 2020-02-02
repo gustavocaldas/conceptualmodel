@@ -1,5 +1,6 @@
 package com.gcaldas.conceptualmodel;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +12,21 @@ import com.gcaldas.conceptualmodel.domain.Address;
 import com.gcaldas.conceptualmodel.domain.Category;
 import com.gcaldas.conceptualmodel.domain.City;
 import com.gcaldas.conceptualmodel.domain.Client;
+import com.gcaldas.conceptualmodel.domain.Payment;
+import com.gcaldas.conceptualmodel.domain.PaymentWithBoleto;
+import com.gcaldas.conceptualmodel.domain.PaymentWithCard;
 import com.gcaldas.conceptualmodel.domain.Product;
+import com.gcaldas.conceptualmodel.domain.PurcharseOrder;
 import com.gcaldas.conceptualmodel.domain.State;
 import com.gcaldas.conceptualmodel.domain.enums.ClientType;
+import com.gcaldas.conceptualmodel.domain.enums.PaymentStatus;
 import com.gcaldas.conceptualmodel.repositories.AddressRepository;
 import com.gcaldas.conceptualmodel.repositories.CategoryRepository;
 import com.gcaldas.conceptualmodel.repositories.CityRepository;
 import com.gcaldas.conceptualmodel.repositories.ClientRepository;
+import com.gcaldas.conceptualmodel.repositories.PaymentRepository;
 import com.gcaldas.conceptualmodel.repositories.ProductRepository;
+import com.gcaldas.conceptualmodel.repositories.PurcharseOrderRepository;
 import com.gcaldas.conceptualmodel.repositories.StateRepository;
 
 @SpringBootApplication
@@ -32,16 +40,22 @@ public class ConceptualmodelApplication implements CommandLineRunner {
 
 	@Autowired
 	private CityRepository cityRepository;
-	
+
 	@Autowired
 	private StateRepository stateRepository;
-	
+
 	@Autowired
 	private ClientRepository clientRepository;
-	
+
 	@Autowired
 	private AddressRepository addressRepository;
-	
+
+	@Autowired
+	private PurcharseOrderRepository purcharseOrderRepository;
+
+	@Autowired
+	private PaymentRepository paymentRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(ConceptualmodelApplication.class, args);
 	}
@@ -75,21 +89,38 @@ public class ConceptualmodelApplication implements CommandLineRunner {
 
 		state1.getCities().addAll(Arrays.asList(c1));
 		state2.getCities().addAll(Arrays.asList(c2, c3));
-		
+
 		stateRepository.saveAll(Arrays.asList(state1, state2));
 		cityRepository.saveAll(Arrays.asList(c1, c2, c3));
 
 		Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.NATURALPERSON);
-		
+
 		cli1.getPhones().addAll(Arrays.asList("27363323", "93838393"));
-		
+
 		Address ad1 = new Address(null, "Rua Flores", "300", "Apto 203", "Jardim", "38220834", cli1, c1);
 
 		Address ad2 = new Address(null, "Avenida Matos", "150", "Sala 800", "Centro", "38777012", cli1, c2);
-		
+
 		cli1.getAddress().addAll(Arrays.asList(ad1, ad2));
-		
+
 		clientRepository.saveAll(Arrays.asList(cli1));
 		addressRepository.saveAll(Arrays.asList(ad1, ad2));
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		PurcharseOrder po1 = new PurcharseOrder(null, sdf.parse("30/09/2017 10:32"), cli1, ad1);
+		PurcharseOrder po2 = new PurcharseOrder(null, sdf.parse("10/10/2017 19:35"), cli1, ad2);
+
+		Payment pay1 = new PaymentWithCard(null, PaymentStatus.PAID, po1, 6);
+		po1.setPayment(pay1);
+
+		Payment pay2 = new PaymentWithBoleto(null, PaymentStatus.PENDING, po2, sdf.parse("20/10/2017 00:00"), null);
+		po2.setPayment(pay2);
+
+		cli1.getOrders().addAll(Arrays.asList(po1, po2));
+
+		purcharseOrderRepository.saveAll(Arrays.asList(po1, po2));
+		
+		paymentRepository.saveAll(Arrays.asList(pay1, pay2));
 	}
 }
