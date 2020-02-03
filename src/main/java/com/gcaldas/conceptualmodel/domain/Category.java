@@ -22,7 +22,6 @@ public class Category implements Serializable {
 	private Integer id;
 	private String name;
 
-	@JsonManagedReference
 	@ManyToMany(mappedBy = "categories")
 	private List<Product> products = new ArrayList<>();
 
@@ -59,7 +58,7 @@ public class Category implements Serializable {
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
