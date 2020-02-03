@@ -3,6 +3,7 @@ package com.gcaldas.conceptualmodel;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
+import org.hibernate.sql.ordering.antlr.OrderingSpecification.Ordering;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,6 +13,7 @@ import com.gcaldas.conceptualmodel.domain.Address;
 import com.gcaldas.conceptualmodel.domain.Category;
 import com.gcaldas.conceptualmodel.domain.City;
 import com.gcaldas.conceptualmodel.domain.Client;
+import com.gcaldas.conceptualmodel.domain.OrderItem;
 import com.gcaldas.conceptualmodel.domain.Payment;
 import com.gcaldas.conceptualmodel.domain.PaymentWithBoleto;
 import com.gcaldas.conceptualmodel.domain.PaymentWithCard;
@@ -24,6 +26,7 @@ import com.gcaldas.conceptualmodel.repositories.AddressRepository;
 import com.gcaldas.conceptualmodel.repositories.CategoryRepository;
 import com.gcaldas.conceptualmodel.repositories.CityRepository;
 import com.gcaldas.conceptualmodel.repositories.ClientRepository;
+import com.gcaldas.conceptualmodel.repositories.OrderItemRepository;
 import com.gcaldas.conceptualmodel.repositories.PaymentRepository;
 import com.gcaldas.conceptualmodel.repositories.ProductRepository;
 import com.gcaldas.conceptualmodel.repositories.PurcharseOrderRepository;
@@ -55,6 +58,9 @@ public class ConceptualmodelApplication implements CommandLineRunner {
 
 	@Autowired
 	private PaymentRepository paymentRepository;
+
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ConceptualmodelApplication.class, args);
@@ -120,7 +126,20 @@ public class ConceptualmodelApplication implements CommandLineRunner {
 		cli1.getOrders().addAll(Arrays.asList(po1, po2));
 
 		purcharseOrderRepository.saveAll(Arrays.asList(po1, po2));
-		
+
 		paymentRepository.saveAll(Arrays.asList(pay1, pay2));
+
+		OrderItem oi1 = new OrderItem(po1, p1, 0.00, 1, 2000.00);
+		OrderItem oi2 = new OrderItem(po1, p3, 0.00, 2, 80.00);
+		OrderItem oi3 = new OrderItem(po2, p2, 0.00, 1, 800.00);
+
+		po1.getItems().addAll(Arrays.asList(oi1, oi2));
+		po2.getItems().addAll(Arrays.asList(oi3));
+
+		p1.getItems().addAll(Arrays.asList(oi1));
+		p2.getItems().addAll(Arrays.asList(oi3));
+		p3.getItems().addAll(Arrays.asList(oi2));
+
+		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3));
 	}
 }
