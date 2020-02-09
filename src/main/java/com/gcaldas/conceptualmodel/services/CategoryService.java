@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.gcaldas.conceptualmodel.domain.Category;
+import com.gcaldas.conceptualmodel.domain.Client;
 import com.gcaldas.conceptualmodel.dto.CategoryDTO;
 import com.gcaldas.conceptualmodel.repositories.CategoryRepository;
 import com.gcaldas.conceptualmodel.services.exceptions.DataIntegrityException;
@@ -35,8 +36,9 @@ public class CategoryService {
 	}
 	
 	public Category update(Category obj) {
-		find(obj.getId());
-		return rep.save(obj);
+		Category newObj = find(obj.getId());
+		updateData(newObj, obj);
+		return rep.save(newObj);
 	}
 	
 	public void delete(Integer id) {
@@ -59,5 +61,9 @@ public class CategoryService {
 	
 	public Category fromDTO(CategoryDTO objDTO) {
 		return new Category(objDTO.getId(), objDTO.getName());
+	}
+	
+	private void updateData(Category newObj, Category obj) {
+		newObj.setName(obj.getName());
 	}
 }
