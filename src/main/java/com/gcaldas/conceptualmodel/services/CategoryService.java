@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.gcaldas.conceptualmodel.domain.Category;
+import com.gcaldas.conceptualmodel.dto.CategoryDTO;
 import com.gcaldas.conceptualmodel.repositories.CategoryRepository;
 import com.gcaldas.conceptualmodel.services.exceptions.DataIntegrityException;
 import com.gcaldas.conceptualmodel.services.exceptions.ObjectNotFoundException;
@@ -54,5 +55,9 @@ public class CategoryService {
 	public Page<Category> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return rep.findAll(pageRequest);
+	}
+	
+	public Category fromDTO(CategoryDTO objDTO) {
+		return new Category(objDTO.getId(), objDTO.getName());
 	}
 }
