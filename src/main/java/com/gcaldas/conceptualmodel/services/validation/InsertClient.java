@@ -14,7 +14,7 @@ import javax.validation.Payload;
 
 public @interface InsertClient {
 
-	String message() default "Erro de validação";
+	String message() default "Validation error.";
 
 	Class<?>[] groups() default {};
 
