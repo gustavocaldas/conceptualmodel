@@ -29,7 +29,7 @@ public class ClientService {
 	private ClientRepository rep;
 	
 	@Autowired
-	private AddressRepository repAddress;
+	private AddressRepository addressRepository;
 
 	public Client find(Integer id) {
 		Optional<Client> obj = rep.findById(id);
@@ -42,7 +42,7 @@ public class ClientService {
 	public Client insert(Client obj) {
 		obj.setId(null);
 		obj = rep.save(obj);
-		repAddress.saveAll(obj.getAddress());
+		addressRepository.saveAll(obj.getAddress());
 		return obj;
 	}
 	

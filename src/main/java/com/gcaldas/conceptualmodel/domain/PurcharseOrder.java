@@ -56,11 +56,11 @@ public class PurcharseOrder implements Serializable {
 	}
 	
 	public double getTotalValue() {
-		double soma = 0.0;
+		double sum = 0.0;
 		for(OrderItem orderItem : items) {
-			soma = soma + orderItem.getSubTotal();
+			sum = sum + orderItem.getSubTotal();
 		}
-		return soma;
+		return sum;
 	}
 
 	public Integer getId() {

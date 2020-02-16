@@ -22,7 +22,7 @@ public class ProductService {
 	private ProductRepository rep;
 	
 	@Autowired
-	private CategoryRepository repCategory;
+	private CategoryRepository categoryRepository;
 
 	public Product find(Integer id) {
 		Optional<Product> obj = rep.findById(id);
@@ -33,7 +33,7 @@ public class ProductService {
 	
 	public Page<Product> search(String name, List<Integer> ids, Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		List<Category> categories = repCategory.findAllById(ids);
+		List<Category> categories = categoryRepository.findAllById(ids);
 		return rep.findDistinctByNameContainingAndCategoriesIn(name, categories, pageRequest);
 	}
 }

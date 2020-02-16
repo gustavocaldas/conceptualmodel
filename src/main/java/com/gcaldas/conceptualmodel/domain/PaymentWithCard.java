@@ -2,9 +2,11 @@ package com.gcaldas.conceptualmodel.domain;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.gcaldas.conceptualmodel.domain.enums.PaymentStatus;
 
 @Entity
+@JsonTypeName("paymentWithCard")
 public class PaymentWithCard extends Payment {
 
 	private static final long serialVersionUID = 1L;
