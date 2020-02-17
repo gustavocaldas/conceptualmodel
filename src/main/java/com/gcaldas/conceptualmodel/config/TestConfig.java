@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 import com.gcaldas.conceptualmodel.services.DBService;
 
 @Configuration
-@Profile("dev")
+@Profile("test")
 public class TestConfig {
 
 	@Autowired

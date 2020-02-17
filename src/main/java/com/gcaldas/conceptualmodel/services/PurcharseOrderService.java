@@ -11,6 +11,7 @@ import com.gcaldas.conceptualmodel.domain.OrderItem;
 import com.gcaldas.conceptualmodel.domain.PaymentWithBoleto;
 import com.gcaldas.conceptualmodel.domain.PurcharseOrder;
 import com.gcaldas.conceptualmodel.domain.enums.PaymentStatus;
+import com.gcaldas.conceptualmodel.repositories.ClientRepository;
 import com.gcaldas.conceptualmodel.repositories.OrderItemRepository;
 import com.gcaldas.conceptualmodel.repositories.PaymentRepository;
 import com.gcaldas.conceptualmodel.repositories.ProductRepository;
@@ -35,6 +36,9 @@ public class PurcharseOrderService {
 	@Autowired
 	private OrderItemRepository orderItemRepository;
 	
+	@Autowired
+	private ClientService clientService;
+	
 	public PurcharseOrder find(Integer id) {
 		Optional<PurcharseOrder> obj = rep.findById(id);
 
@@ -46,6 +50,7 @@ public class PurcharseOrderService {
 	public PurcharseOrder insert(PurcharseOrder obj) {
 		obj.setId(null);
 		obj.setOrderDate(new Date());
+		obj.setClient(clientService.find(obj.getClient().getId()));
 		obj.getPayment().setStatus(PaymentStatus.PENDING);
 		obj.getPayment().setOrderNumber(obj);
 		if(obj.getPayment() instanceof PaymentWithBoleto) {
@@ -57,10 +62,12 @@ public class PurcharseOrderService {
 		paymentRepository.save(obj.getPayment());
 		for (OrderItem orderItem : obj.getItems()) {
 			orderItem.setDiscount(0.0);
-			orderItem.setPrice(productService.find(orderItem.getProduct().getId()).getPrice());
+			orderItem.setProduct(productService.find(orderItem.getProduct().getId()));
+			orderItem.setPrice(orderItem.getProduct().getPrice());
 			orderItem.setPurcharseOrder(obj);
 		}
 		orderItemRepository.saveAll(obj.getItems());
+		System.out.println(obj);
 		return obj;
 	}
 }

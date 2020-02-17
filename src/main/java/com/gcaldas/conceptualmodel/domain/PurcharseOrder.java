@@ -1,8 +1,11 @@
 package com.gcaldas.conceptualmodel.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -136,4 +139,25 @@ public class PurcharseOrder implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.CANADA);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		StringBuilder builder = new StringBuilder();
+		builder.append("PurcharseOrder: ");
+		builder.append(getId());
+		builder.append(", Order date: ");
+		builder.append(sdf.format(getOrderDate()));
+		builder.append(", Client: ");
+		builder.append(getClient().getName());
+		builder.append(", Status payment: ");
+		builder.append(getPayment().getStatus().getDescription());
+		builder.append("\nDetails:\n");
+		for(OrderItem orderItem : getItems()) {
+			builder.append(orderItem.toString());
+		}
+		builder.append("Total value: ");
+		builder.append(nf.format(getTotalValue()));
+		return builder.toString();
+	}
 }
