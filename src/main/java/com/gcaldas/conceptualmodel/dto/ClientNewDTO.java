@@ -17,34 +17,37 @@ public class ClientNewDTO implements Serializable {
 	@NotEmpty(message = "Required field")
 	@Length(min = 5, max = 120, message = "The length must be between 5 and 120 characters")
 	private String name;
-	
+
 	@NotEmpty(message = "Required fied")
 	@Email(message = "Invalid email")
 	private String email;
-	
+
 	@NotEmpty(message = "Required field")
 	private String cpfCnpj;
 
 	private Integer type;
+
+	@NotEmpty
+	private String senha;
 
 	@NotEmpty(message = "Required field")
 	private String streetAddress;
 
 	@NotEmpty(message = "Required field")
 	private String number;
-	
+
 	private String complement;
-	
+
 	private String district;
-	
+
 	@NotEmpty(message = "Required field")
 	private String zipCode;
 
 	@NotEmpty(message = "Required field")
 	private String phone1;
-	
+
 	private String phone2;
-	
+
 	private String phone3;
 
 	private Integer cityId;
@@ -82,6 +85,14 @@ public class ClientNewDTO implements Serializable {
 
 	public void setType(Integer type) {
 		this.type = type;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public String getStreetAddress() {
