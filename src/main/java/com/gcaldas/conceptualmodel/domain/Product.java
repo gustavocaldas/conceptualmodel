@@ -51,10 +51,10 @@ public class Product implements Serializable {
 	}
 
 	@JsonIgnore
-	public List<PurcharseOrder> getPurcharseOrders() {
-		List<PurcharseOrder> list = new ArrayList<>();
+	public List<PurchaseOrder> getPurchaseOrders() {
+		List<PurchaseOrder> list = new ArrayList<>();
 		for (OrderItem x : items) {
-			list.add(x.getPurcharseOrder());
+			list.add(x.getPurchaseOrder());
 		}
 
 		return list;

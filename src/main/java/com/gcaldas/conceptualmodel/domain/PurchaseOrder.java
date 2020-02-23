@@ -21,7 +21,7 @@ import javax.persistence.OneToOne;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-public class PurcharseOrder implements Serializable {
+public class PurchaseOrder implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -43,14 +43,14 @@ public class PurcharseOrder implements Serializable {
 	@JoinColumn(name = "address_id")
 	private Address deliveryAddress;
 
-	@OneToMany(mappedBy = "id.purcharseOrder")
+	@OneToMany(mappedBy = "id.purchaseOrder")
 	private Set<OrderItem> items = new HashSet<>();
 
-	public PurcharseOrder() {
+	public PurchaseOrder() {
 
 	}
 
-	public PurcharseOrder(Integer id, Date orderDate, Client client, Address deliveryAddress) {
+	public PurchaseOrder(Integer id, Date orderDate, Client client, Address deliveryAddress) {
 		super();
 		this.id = id;
 		this.orderDate = orderDate;
@@ -130,7 +130,7 @@ public class PurcharseOrder implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PurcharseOrder other = (PurcharseOrder) obj;
+		PurchaseOrder other = (PurchaseOrder) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -144,7 +144,7 @@ public class PurcharseOrder implements Serializable {
 		NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.CANADA);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		StringBuilder builder = new StringBuilder();
-		builder.append("PurcharseOrder: ");
+		builder.append("PurchaseOrder: ");
 		builder.append(getId());
 		builder.append(", Order date: ");
 		builder.append(sdf.format(getOrderDate()));

@@ -18,7 +18,7 @@ import com.gcaldas.conceptualmodel.domain.Payment;
 import com.gcaldas.conceptualmodel.domain.PaymentWithBoleto;
 import com.gcaldas.conceptualmodel.domain.PaymentWithCard;
 import com.gcaldas.conceptualmodel.domain.Product;
-import com.gcaldas.conceptualmodel.domain.PurcharseOrder;
+import com.gcaldas.conceptualmodel.domain.PurchaseOrder;
 import com.gcaldas.conceptualmodel.domain.State;
 import com.gcaldas.conceptualmodel.domain.enums.ClientType;
 import com.gcaldas.conceptualmodel.domain.enums.PaymentStatus;
@@ -30,7 +30,7 @@ import com.gcaldas.conceptualmodel.repositories.ClientRepository;
 import com.gcaldas.conceptualmodel.repositories.OrderItemRepository;
 import com.gcaldas.conceptualmodel.repositories.PaymentRepository;
 import com.gcaldas.conceptualmodel.repositories.ProductRepository;
-import com.gcaldas.conceptualmodel.repositories.PurcharseOrderRepository;
+import com.gcaldas.conceptualmodel.repositories.PurchaseOrderRepository;
 import com.gcaldas.conceptualmodel.repositories.StateRepository;
 
 @Service
@@ -58,7 +58,7 @@ public class DBService {
 	private AddressRepository addressRepository;
 
 	@Autowired
-	private PurcharseOrderRepository purcharseOrderRepository;
+	private PurchaseOrderRepository purchaseOrderRepository;
 
 	@Autowired
 	private PaymentRepository paymentRepository;
@@ -144,8 +144,8 @@ public class DBService {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-		PurcharseOrder po1 = new PurcharseOrder(null, sdf.parse("30/09/2017 10:32"), cli1, ad1);
-		PurcharseOrder po2 = new PurcharseOrder(null, sdf.parse("10/10/2017 19:35"), cli1, ad2);
+		PurchaseOrder po1 = new PurchaseOrder(null, sdf.parse("30/09/2017 10:32"), cli1, ad1);
+		PurchaseOrder po2 = new PurchaseOrder(null, sdf.parse("10/10/2017 19:35"), cli1, ad2);
 
 		Payment pay1 = new PaymentWithCard(null, PaymentStatus.PAID, po1, 6);
 		po1.setPayment(pay1);
@@ -155,7 +155,7 @@ public class DBService {
 
 		cli1.getOrders().addAll(Arrays.asList(po1, po2));
 
-		purcharseOrderRepository.saveAll(Arrays.asList(po1, po2));
+		purchaseOrderRepository.saveAll(Arrays.asList(po1, po2));
 
 		paymentRepository.saveAll(Arrays.asList(pay1, pay2));
 

@@ -4,15 +4,15 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.mail.SimpleMailMessage;
 
-import com.gcaldas.conceptualmodel.domain.PurcharseOrder;
+import com.gcaldas.conceptualmodel.domain.PurchaseOrder;
 
 public interface EmailService {
 
-	void sendOrderConfirmationEmail(PurcharseOrder obj);
+	void sendOrderConfirmationEmail(PurchaseOrder obj);
 
 	void sendEmail(SimpleMailMessage msg);
 
-	void sendOrderConfirmationHtmlEmail(PurcharseOrder obj);
+	void sendOrderConfirmationHtmlEmail(PurchaseOrder obj);
 
 	void sendHtmlEmail(MimeMessage msg);
 }

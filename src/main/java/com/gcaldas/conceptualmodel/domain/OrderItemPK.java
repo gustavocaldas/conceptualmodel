@@ -12,18 +12,18 @@ public class OrderItemPK implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "order_id")
-	private PurcharseOrder purcharseOrder;
+	private PurchaseOrder purchaseOrder;
 
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
 
-	public PurcharseOrder getPurcharseOrder() {
-		return purcharseOrder;
+	public PurchaseOrder getPurchaseOrder() {
+		return purchaseOrder;
 	}
 
-	public void setPurcharseOrder(PurcharseOrder purcharseOrder) {
-		this.purcharseOrder = purcharseOrder;
+	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+		this.purchaseOrder = purchaseOrder;
 	}
 
 	public Product getProduct() {
@@ -43,7 +43,7 @@ public class OrderItemPK implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((product == null) ? 0 : product.hashCode());
-		result = prime * result + ((purcharseOrder == null) ? 0 : purcharseOrder.hashCode());
+		result = prime * result + ((purchaseOrder == null) ? 0 : purchaseOrder.hashCode());
 		return result;
 	}
 
@@ -61,10 +61,10 @@ public class OrderItemPK implements Serializable {
 				return false;
 		} else if (!product.equals(other.product))
 			return false;
-		if (purcharseOrder == null) {
-			if (other.purcharseOrder != null)
+		if (purchaseOrder == null) {
+			if (other.purchaseOrder != null)
 				return false;
-		} else if (!purcharseOrder.equals(other.purcharseOrder))
+		} else if (!purchaseOrder.equals(other.purchaseOrder))
 			return false;
 		return true;
 	}

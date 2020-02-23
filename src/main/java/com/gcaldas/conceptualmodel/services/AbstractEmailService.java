@@ -13,7 +13,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import com.gcaldas.conceptualmodel.domain.PurcharseOrder;
+import com.gcaldas.conceptualmodel.domain.PurchaseOrder;
 
 public abstract class AbstractEmailService implements EmailService {
 
@@ -27,12 +27,12 @@ public abstract class AbstractEmailService implements EmailService {
 	private JavaMailSender javaMailSender;
 	
 	@Override
-	public void sendOrderConfirmationEmail(PurcharseOrder obj) {
-		SimpleMailMessage sm = prepareSimpleMailMessageFromPurcharseOrder(obj);
+	public void sendOrderConfirmationEmail(PurchaseOrder obj) {
+		SimpleMailMessage sm = prepareSimpleMailMessageFromPurchaseOrder(obj);
 		sendEmail(sm);
 	}
 	
-	protected SimpleMailMessage prepareSimpleMailMessageFromPurcharseOrder(PurcharseOrder obj) {
+	protected SimpleMailMessage prepareSimpleMailMessageFromPurchaseOrder(PurchaseOrder obj) {
 		SimpleMailMessage sm = new SimpleMailMessage();
 		sm.setTo(obj.getClient().getEmail());
 		sm.setFrom(sender);
@@ -42,23 +42,23 @@ public abstract class AbstractEmailService implements EmailService {
 		return sm;
 	}
 	
-	protected String htmlFromTemplatePedido(PurcharseOrder obj) {
+	protected String htmlFromTemplatePedido(PurchaseOrder obj) {
 		Context context = new Context();
 		context.setVariable("order", obj);
 		return templateEngine.process("email/orderConfirmation", context);
 	}
 	
 	@Override
-	public void sendOrderConfirmationHtmlEmail(PurcharseOrder obj) {
+	public void sendOrderConfirmationHtmlEmail(PurchaseOrder obj) {
 		try {
-			MimeMessage mm = prepareMimeMailMessageFromPurcharseOrder(obj);
+			MimeMessage mm = prepareMimeMailMessageFromPurchaseOrder(obj);
 			sendHtmlEmail(mm);
 		} catch (MessagingException e) {
 			sendOrderConfirmationEmail(obj);
 		}
 	}
 
-	protected MimeMessage prepareMimeMailMessageFromPurcharseOrder(PurcharseOrder obj) throws MessagingException {
+	protected MimeMessage prepareMimeMailMessageFromPurchaseOrder(PurchaseOrder obj) throws MessagingException {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
 		mmh.setTo(obj.getClient().getEmail());

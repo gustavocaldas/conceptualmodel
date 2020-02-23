@@ -41,7 +41,7 @@ public class Client implements Serializable {
 	private Integer type;
 
 	@JsonIgnore
-	private String senha;
+	private String password;
 
 	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
 	private List<Address> address = new ArrayList<>();
@@ -57,20 +57,20 @@ public class Client implements Serializable {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
-	private List<PurcharseOrder> orders = new ArrayList<>();
+	private List<PurchaseOrder> orders = new ArrayList<>();
 
 	public Client() {
 		addProfile(Profile.CLIENT);
 	}
 
-	public Client(Integer id, String name, String email, String cpfCnpj, ClientType type, String senha) {
+	public Client(Integer id, String name, String email, String cpfCnpj, ClientType type, String password) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.cpfCnpj = cpfCnpj;
 		this.type = (type == null) ? null : type.getCod();
-		this.senha = senha;
+		this.password = password;
 		addProfile(Profile.CLIENT);
 	}
 
@@ -114,12 +114,12 @@ public class Client implements Serializable {
 		this.type = type.getCod();
 	}
 
-	public String getSenha() {
-		return senha;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	public Set<Profile> getProfiles() {
@@ -146,11 +146,11 @@ public class Client implements Serializable {
 		this.phones = phones;
 	}
 
-	public List<PurcharseOrder> getOrders() {
+	public List<PurchaseOrder> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(List<PurcharseOrder> orders) {
+	public void setOrders(List<PurchaseOrder> orders) {
 		this.orders = orders;
 	}
 

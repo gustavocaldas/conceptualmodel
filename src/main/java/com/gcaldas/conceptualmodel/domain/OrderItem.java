@@ -25,9 +25,9 @@ public class OrderItem implements Serializable {
 
 	}
 
-	public OrderItem(PurcharseOrder purcharseOrder, Product product, Double discount, Integer quantity, Double price) {
+	public OrderItem(PurchaseOrder purchaseOrder, Product product, Double discount, Integer quantity, Double price) {
 		super();
-		this.id.setPurcharseOrder(purcharseOrder);
+		this.id.setPurchaseOrder(purchaseOrder);
 		this.id.setProduct(product);
 		this.discount = discount;
 		this.quantity = quantity;
@@ -39,12 +39,12 @@ public class OrderItem implements Serializable {
 	}
 
 	@JsonIgnore
-	public PurcharseOrder getPurcharseOrder() {
-		return id.getPurcharseOrder();
+	public PurchaseOrder getPurchaseOrder() {
+		return id.getPurchaseOrder();
 	}
 	
-	public void setPurcharseOrder(PurcharseOrder purcharseOrder) {
-		id.setPurcharseOrder(purcharseOrder);
+	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+		id.setPurchaseOrder(purchaseOrder);
 	}
 
 	public Product getProduct() {

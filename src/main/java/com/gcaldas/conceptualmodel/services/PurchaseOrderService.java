@@ -9,20 +9,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gcaldas.conceptualmodel.domain.OrderItem;
 import com.gcaldas.conceptualmodel.domain.PaymentWithBoleto;
-import com.gcaldas.conceptualmodel.domain.PurcharseOrder;
+import com.gcaldas.conceptualmodel.domain.PurchaseOrder;
 import com.gcaldas.conceptualmodel.domain.enums.PaymentStatus;
 import com.gcaldas.conceptualmodel.repositories.ClientRepository;
 import com.gcaldas.conceptualmodel.repositories.OrderItemRepository;
 import com.gcaldas.conceptualmodel.repositories.PaymentRepository;
 import com.gcaldas.conceptualmodel.repositories.ProductRepository;
-import com.gcaldas.conceptualmodel.repositories.PurcharseOrderRepository;
+import com.gcaldas.conceptualmodel.repositories.PurchaseOrderRepository;
 import com.gcaldas.conceptualmodel.services.exceptions.ObjectNotFoundException;
 
 @Service
-public class PurcharseOrderService {
+public class PurchaseOrderService {
 
 	@Autowired
-	private PurcharseOrderRepository rep;
+	private PurchaseOrderRepository rep;
 
 	@Autowired
 	private BoletoService boletoService;
@@ -42,15 +42,15 @@ public class PurcharseOrderService {
 	@Autowired
 	private EmailService emailService;
 	
-	public PurcharseOrder find(Integer id) {
-		Optional<PurcharseOrder> obj = rep.findById(id);
+	public PurchaseOrder find(Integer id) {
+		Optional<PurchaseOrder> obj = rep.findById(id);
 
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
-				"Object not found. Id: " + id + ", Type: " + PurcharseOrder.class.getName()));
+				"Object not found. Id: " + id + ", Type: " + PurchaseOrder.class.getName()));
 	}
 	
 	@Transactional
-	public PurcharseOrder insert(PurcharseOrder obj) {
+	public PurchaseOrder insert(PurchaseOrder obj) {
 		obj.setId(null);
 		obj.setOrderDate(new Date());
 		obj.setClient(clientService.find(obj.getClient().getId()));
@@ -67,7 +67,7 @@ public class PurcharseOrderService {
 			orderItem.setDiscount(0.0);
 			orderItem.setProduct(productService.find(orderItem.getProduct().getId()));
 			orderItem.setPrice(orderItem.getProduct().getPrice());
-			orderItem.setPurcharseOrder(obj);
+			orderItem.setPurchaseOrder(obj);
 		}
 		orderItemRepository.saveAll(obj.getItems());
 		emailService.sendOrderConfirmationHtmlEmail(obj);

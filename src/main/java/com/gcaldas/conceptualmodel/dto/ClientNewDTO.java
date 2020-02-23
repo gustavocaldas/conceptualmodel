@@ -28,7 +28,7 @@ public class ClientNewDTO implements Serializable {
 	private Integer type;
 
 	@NotEmpty
-	private String senha;
+	private String password;
 
 	@NotEmpty(message = "Required field")
 	private String streetAddress;
@@ -87,12 +87,12 @@ public class ClientNewDTO implements Serializable {
 		this.type = type;
 	}
 
-	public String getSenha() {
-		return senha;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getStreetAddress() {

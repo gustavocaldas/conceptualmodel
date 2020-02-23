@@ -30,13 +30,13 @@ public abstract class Payment implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "order_id")
 	@MapsId
-	private PurcharseOrder orderNumber;
+	private PurchaseOrder orderNumber;
 
 	public Payment() {
 
 	}
 
-	public Payment(Integer id, PaymentStatus status, PurcharseOrder orderNumber) {
+	public Payment(Integer id, PaymentStatus status, PurchaseOrder orderNumber) {
 		super();
 		this.id = id;
 		this.status = (status==null) ? null : status.getCod();
@@ -59,11 +59,11 @@ public abstract class Payment implements Serializable {
 		this.status = status.getCod();
 	}
 
-	public PurcharseOrder getOrderNumber() {
+	public PurchaseOrder getOrderNumber() {
 		return orderNumber;
 	}
 
-	public void setOrderNumber(PurcharseOrder orderNumber) {
+	public void setOrderNumber(PurchaseOrder orderNumber) {
 		this.orderNumber = orderNumber;
 	}
 
