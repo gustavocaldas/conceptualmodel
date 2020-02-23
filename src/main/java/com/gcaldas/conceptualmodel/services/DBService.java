@@ -22,6 +22,7 @@ import com.gcaldas.conceptualmodel.domain.PurcharseOrder;
 import com.gcaldas.conceptualmodel.domain.State;
 import com.gcaldas.conceptualmodel.domain.enums.ClientType;
 import com.gcaldas.conceptualmodel.domain.enums.PaymentStatus;
+import com.gcaldas.conceptualmodel.domain.enums.Profile;
 import com.gcaldas.conceptualmodel.repositories.AddressRepository;
 import com.gcaldas.conceptualmodel.repositories.CategoryRepository;
 import com.gcaldas.conceptualmodel.repositories.CityRepository;
@@ -123,17 +124,23 @@ public class DBService {
 		cityRepository.saveAll(Arrays.asList(c1, c2, c3));
 
 		Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.NATURALPERSON, pe.encode("123"));
-
 		cli1.getPhones().addAll(Arrays.asList("27363323", "93838393"));
-
+		
+		Client cli2 = new Client(null, "Ana Costa", "gustavohmcaldas@gmail.com", "31628382740", ClientType.NATURALPERSON, pe.encode("123"));
+		cli2.getPhones().addAll(Arrays.asList("93883321", "34252625"));
+		cli2.addProfile(Profile.ADMIN);
+		
 		Address ad1 = new Address(null, "Rua Flores", "300", "Apto 203", "Jardim", "38220834", cli1, c1);
-
 		Address ad2 = new Address(null, "Avenida Matos", "150", "Sala 800", "Centro", "38777012", cli1, c2);
+		Address ad3 = new Address(null, "Avenida Floriano", "2106", "null", "Centro", "281777012", cli2, c2);
 
+		
 		cli1.getAddress().addAll(Arrays.asList(ad1, ad2));
+		cli2.getAddress().addAll(Arrays.asList(ad3));
 
 		clientRepository.saveAll(Arrays.asList(cli1));
-		addressRepository.saveAll(Arrays.asList(ad1, ad2));
+		clientRepository.saveAll(Arrays.asList(cli2));
+		addressRepository.saveAll(Arrays.asList(ad1, ad2, ad3));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
