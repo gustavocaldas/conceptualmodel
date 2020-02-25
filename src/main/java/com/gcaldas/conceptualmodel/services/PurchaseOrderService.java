@@ -4,18 +4,22 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gcaldas.conceptualmodel.domain.Client;
 import com.gcaldas.conceptualmodel.domain.OrderItem;
 import com.gcaldas.conceptualmodel.domain.PaymentWithBoleto;
 import com.gcaldas.conceptualmodel.domain.PurchaseOrder;
 import com.gcaldas.conceptualmodel.domain.enums.PaymentStatus;
-import com.gcaldas.conceptualmodel.repositories.ClientRepository;
 import com.gcaldas.conceptualmodel.repositories.OrderItemRepository;
 import com.gcaldas.conceptualmodel.repositories.PaymentRepository;
-import com.gcaldas.conceptualmodel.repositories.ProductRepository;
 import com.gcaldas.conceptualmodel.repositories.PurchaseOrderRepository;
+import com.gcaldas.conceptualmodel.security.UserSS;
+import com.gcaldas.conceptualmodel.services.exceptions.AuthorizationException;
 import com.gcaldas.conceptualmodel.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -72,5 +76,15 @@ public class PurchaseOrderService {
 		orderItemRepository.saveAll(obj.getItems());
 		emailService.sendOrderConfirmationHtmlEmail(obj);
 		return obj;
+	}
+	
+	public Page<PurchaseOrder> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Client client =  clientService.find(user.getId());
+		return rep.findByClient(client, pageRequest);
 	}
 }
