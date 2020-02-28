@@ -1,5 +1,6 @@
 package com.gcaldas.conceptualmodel.services;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gcaldas.conceptualmodel.domain.Address;
 import com.gcaldas.conceptualmodel.domain.City;
@@ -32,6 +34,9 @@ public class ClientService {
 	@Autowired
 	private BCryptPasswordEncoder pe;
 
+	@Autowired
+	private S3Service s3Service;
+	
 	@Autowired
 	private ClientRepository rep;
 
@@ -108,5 +113,9 @@ public class ClientService {
 	private void updateData(Client newObj, Client obj) {
 		newObj.setName(obj.getName());
 		newObj.setEmail(obj.getEmail());
+	}
+	
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
 	}
 }
